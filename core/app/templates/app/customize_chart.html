@@ -1,0 +1,17 @@
+{% extends 'app/base.html' %}
+{% load static %}
+
+{% block content %}
+<div>
+    <div id="chart_div3">
+        {% block chart_content %}
+            <form action="{% url 'customize_chart' %}" method="POST"> {# Correct URL name used here #}
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Show</button>
+            </form>
+            {{ chart9|safe }}
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}

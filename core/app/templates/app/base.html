@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Predictive Analytics{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.30.1/plotly.min.js"></script>
+</head>
+<body>
+    <!-- <img src="https://coselifootwear.com/wp-content/uploads/2021/11/coseli-logoblk-1-150x150.png" alt="Project logo. Represents odin with the project name."> -->
+
+   
+    <div class="content">
+       
+        <div class="chart">
+            {% block content %}
+            <!-- This block will be overridden by content from other templates -->
+            {% endblock %}
+        </div>
+    </div>
+    <footer>
+        <!-- Add your footer content here -->
+        <p>&copy; 2024 ashesh-lal All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
