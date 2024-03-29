@@ -11,8 +11,6 @@ from plotly.subplots import make_subplots
 import seaborn as sns
 from . forms import FailureForm
 
-
-
 # Function to generate chart by distribution of the type of machine in the dataset
 def generate_chart1_data():
     count_data = (
@@ -157,25 +155,6 @@ def generate_chart7_data():
     
     return chart
 
-## function to plot the seaborn sns pair plot
-def generate_chart8_data():
-    # Retrieve the data from the database using Django ORM
-    data = Dash.objects.all()
-
-    # Convert the data to a DataFrame using Pandas
-    df = pd.DataFrame(list(data.values('Air_temperature', 'Process_temperature', 'Rotational_speed_rpm', 'Torque_Nm', 'Tool_wear_min')))
-
-    # Select the numerical columns for the pairplot
-    num_cols = df[['Air_temperature', 'Process_temperature', 'Rotational_speed_rpm', 'Torque_Nm', 'Tool_wear_min']]
-
-    # Create a pairplot using Seaborn
-    sns.pairplot(num_cols)
-
-    # Save the pairplot as a file or render it inline
-    plt.savefig('pairplot.png')  # Save as a file
-    # plt.show()  # Render inline in a Jupyter Notebook or similar
-
-    return 'pairplot.png'  # Return the filename or URL to the saved plot
 
 def generate_chart9_data(request):
     if request.method == 'POST':
@@ -218,6 +197,7 @@ def generate_chart9_data(request):
     
     return render(request, 'app/customize_chart.html', {'form': form})
 
+## Function to render all the charts for EDA
 def render_combined_charts(request):
     chart1 = generate_chart1_data()
     chart2 = generate_chart2_data()
@@ -239,3 +219,9 @@ def render_combined_charts(request):
     }
     
     return render(request, 'app/chart.html', context)
+
+
+def display_base_html(request):
+    return render(request, 'app/base.html')
+
+
