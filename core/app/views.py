@@ -226,6 +226,10 @@ def render_combined_charts(request):
 def display_base_html(request):
     return render(request, 'app/base.html')
 
+## function to display performance page
+def display_performance_html(request):
+    return render(request, 'app/model_performance.html')
+
 ## function to predict if the machine will fail or not
 def approvereject(unit):
     try:

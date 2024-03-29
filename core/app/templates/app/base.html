@@ -32,7 +32,7 @@
                     <a href="{% url 'customize_chart' %}">Failure Data</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Model Performance</a>
+                    <a href="{% url 'performance_metrics' %}">Model Performance</a>
                 </li>
                 <li class="nav-item">
                     <a href="{% url 'predict_failure' %}">Predict Failure</a>
@@ -53,12 +53,12 @@
                 <li>product ID: consisting of a letter L, M, or H for low (50% of all products), medium (30%) and high (20%) as product quality variants and a variant-specific serial number</li>
                 <li>type: just the product type L, M or H from column 2</li>
                 <li>air temperature [K]: generated using a random walk process later normalized to a standard deviation of 2 K around 300 K</li>
-                <li>process temperature [K]: generated using a random walk process normalized to a standard deviation of 1 K, added to the air temperature plus 10 K.</li>
-                <li>rotational speed [rpm]: calculated from a power of 2860 W, overlaid with a normally distributed noise</li>
-                <li>torque [Nm]: torque values are normally distributed around 40 Nm with a SD = 10 Nm and no negative values.</li>
-                <li>tool wear [min]: The quality variants H/M/L add 5/3/2 minutes of tool wear to the used tool in the process.</li>
-                <li>a 'machine failure' label that indicates, whether the machine has failed in this particular datapoint for any of the following failure modes are true.</li>
-                <li>The machine failure consists of five independent failure modes</li>
+                <li>Process temperature [K]: generated using a random walk process normalized to a standard deviation of 1 K, added to the air temperature plus 10 K.</li>
+                <li>Rotational speed [rpm]: calculated from a power of 2860 W, overlaid with a normally distributed noise</li>
+                <li>Torque [Nm]: torque values are normally distributed around 40 Nm with a SD = 10 Nm and no negative values.</li>
+                <li>Tool wear [min]: The quality variants H/M/L add 5/3/2 minutes of tool wear to the used tool in the process.</li>
+                <li>A 'machine failure' label that indicates, whether the machine has failed in this particular datapoint for any of the following failure modes are true.</li>
+                The machine failure consists of five independent failure modes:
                 <ul>
                     <li>tool wear failure (TWF): the tool will be replaced of fail at a randomly selected tool wear time between 200 - 240 mins (120 times in our dataset). At this point in time, the tool is replaced 69 times, and fails 51 times (randomly assigned).</li>
                     <li>heat dissipation failure (HDF): heat dissipation causes a process failure, if the difference between air- and process temperature is below 8.6 K and the tools rotational speed is below 1380 rpm. This is the case for 115 data points.</li>

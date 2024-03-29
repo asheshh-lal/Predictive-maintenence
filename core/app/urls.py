@@ -7,6 +7,7 @@ urlpatterns = [
     path('', views.display_base_html, name='display_base'),
     path('eda', views.render_combined_charts, name='combined_charts'),
     path('customize', views.generate_chart9_data, name='customize_chart'),  
+    path('perfomance', views.display_performance_html, name='performance_metrics'),  
     path('form', views.cxcontact, name='predict_failure'),  
     path('form2', views.cxcontact2, name='predict_failure_type'),  
 ] 
