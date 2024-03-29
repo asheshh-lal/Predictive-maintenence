@@ -226,7 +226,7 @@ def render_combined_charts(request):
 def display_base_html(request):
     return render(request, 'app/base.html')
 
-
+## function to predict if the machine will fail or not
 def approvereject(unit):
     try:
         scalers = joblib.load("/Users/asheshlalshrestha/Desktop/Datanal/Project/Predictive-maintenence/core/app/scaler.pkl")
@@ -254,7 +254,8 @@ def approvereject(unit):
 
     except Exception as e:
         return str(e)
-
+    
+## function to take values to predict the machine will fail or not
 def cxcontact(request):
     if request.method == 'POST':
         form = ApprovalForm(request.POST)
@@ -273,5 +274,54 @@ def cxcontact(request):
     form=ApprovalForm()
 
     return render(request, 'app/form1.html', {'form':form})
+
+## function to predict if the machine will fail or not
+def approvereject2(unit):
+    try:
+        scalers = joblib.load("/Users/asheshlalshrestha/Desktop/Datanal/Project/Predictive-maintenence/core/app/scaler.pkl")
+        mdl = joblib.load("/Users/asheshlalshrestha/Desktop/Datanal/Project/Predictive-maintenence/core/app/rf2.pkl")
+        # scale_cols = ['Rotational_speed_rpm', 'Torque_Nm', 'Tool_wear_min', 'Air_temperature', 'Process_temperature']
+
+        # Drop the 'csrfmiddlewaretoken' column if it exists
+        if 'csrfmiddlewaretoken' in unit.columns:
+            unit = unit.drop('csrfmiddlewaretoken', axis=1)
+        
+        # Exclude the first column from scaling
+        columns_to_scale = unit.columns[1:]
+        
+        # Scale the selected columns
+        X_scaled = scalers.transform(unit[columns_to_scale])
+        
+        # Create a DataFrame from the scaled data
+        X_scaled_df = pd.DataFrame(X_scaled, columns=columns_to_scale, index=unit.index)
+        
+        # Concatenate the unscaled first column and scaled data
+        df_scaled = pd.concat([unit[unit.columns[0]], X_scaled_df], axis=1)
+        
+        y_pred = mdl.predict(df_scaled) 
+        return y_pred       
+
+    except Exception as e:
+        return str(e)
+    
+## function to take values to predict the machine will fail or not
+def cxcontact2(request):
+    if request.method == 'POST':
+        form = ApprovalForm(request.POST)
+        if form.is_valid():
+            Type = form.cleaned_data['Type']
+            Rotational_speed_rpm=form.cleaned_data['Rotational_speed_rpm']
+            Torque_Nm=form.cleaned_data['Torque_Nm']
+            Tool_wear_min=form.cleaned_data['Tool_wear_min']
+            Air_temperature=form.cleaned_data['Air_temperature']
+            Process_temperature=form.cleaned_data['Process_temperature']
+            myDict = (request.POST).dict()
+            df = pd.DataFrame(myDict, index=[0])
+            print(df)
+            print(approvereject2(df))
+					
+    form=ApprovalForm()
+
+    return render(request, 'app/form2.html', {'form':form})
 
 
