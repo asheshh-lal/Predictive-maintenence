@@ -9,7 +9,9 @@ import pandas as pd
 import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import seaborn as sns
-from . forms import FailureForm
+from . forms import FailureForm,ApprovalForm
+import joblib
+
 
 # Function to generate chart by distribution of the type of machine in the dataset
 def generate_chart1_data():
@@ -220,8 +222,41 @@ def render_combined_charts(request):
     
     return render(request, 'app/chart.html', context)
 
-
+## function to display homepage
 def display_base_html(request):
     return render(request, 'app/base.html')
+
+
+def approvereject(unit):
+    try:
+        mdl = joblib.load("/Users/asheshlalshrestha/Desktop/Datanal/Project/Predictive-maintenence/core/app/rf1.pkl")
+        scalers = joblib.load("/Users/asheshlalshrestha/Desktop/Datanal/Project/Predictive-maintenence/core/app/scaler.pkl")
+        scale_cols = ['Rotational_speed_rpm', 'Torque_Nm', 'Tool_wear_min', 'Air temperature', 'Process_temperature']
+        unit = unit.drop('csrfmiddlewaretoken',axis=1)
+        X = scalers.transform(unit[scale_cols])
+        return X
+        # y_pred = mdl.predict(X)
+        # return y_pred
+    except ValueError as e:
+        return (e.args[0])
+
+def cxcontact(request):
+    if request.method == 'POST':
+        form = ApprovalForm(request.POST)
+        if form.is_valid():
+            Type = form.cleaned_data['Type']
+            Rotational_speed_rpm=form.cleaned_data['Rotational_speed_rpm']
+            Torque_Nm=form.cleaned_data['Torque_Nm']
+            Tool_wear_min=form.cleaned_data['Tool_wear_min']
+            Air_temperature=form.cleaned_data['Air_temperature']
+            Process_temperature=form.cleaned_data['Process_temperature']
+            myDict = (request.POST).dict()
+            df = pd.DataFrame(myDict, index=[0])
+            print(df)
+            print(approvereject(df))
+					
+    form=ApprovalForm()
+
+    return render(request, 'app/form1.html', {'form':form})
 
 

@@ -16,6 +16,7 @@ class Dash(models.Model):
     Air_temperature =  models.FloatField(default=0)
     Process_temperature =  models.FloatField(default=0)
     
+
     
     # def __str__(self):
     #     return f'{self.Document} - {self.Article}'

@@ -1,0 +1,25 @@
+{% extends 'app/base.html' %}
+
+{% block content %}
+<body>
+    <div class="form-container">
+        <h2 class="text-center mb-3">Predict The Type of Failure in your machine</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form|linebreaks }}
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mb-3">Submit</button>
+        </form>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {{ message }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</body>
+{% endblock %}
