@@ -11,15 +11,10 @@
             </div>
             <button type="submit" class="btn btn-primary btn-block mb-3">Submit</button>
         </form>
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                {{ message }}
-            </li>
-            {% endfor %}
-        </ul>
-        {% endif %}
+        {% if prediction_result %}
+        <h3>Prediction Result:</h3>
+        <p>{{ prediction_result }}</p>
+    {% endif %}
     </div>
 </body>
 {% endblock %}

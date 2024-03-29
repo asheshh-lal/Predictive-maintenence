@@ -250,12 +250,15 @@ def approvereject(unit):
         df_scaled = pd.concat([unit[unit.columns[0]], X_scaled_df], axis=1)
         
         y_pred = mdl.predict(df_scaled) 
-        return y_pred       
+        if y_pred == 1:
+            return "The machine has been diagnosed with a failure"
+        else:
+            return "The machine is fine"
 
     except Exception as e:
         return str(e)
     
-## function to take values to predict the machine will fail or not
+## function to take values to predict the machine failure type
 def cxcontact(request):
     if request.method == 'POST':
         form = ApprovalForm(request.POST)
@@ -268,14 +271,15 @@ def cxcontact(request):
             Process_temperature=form.cleaned_data['Process_temperature']
             myDict = (request.POST).dict()
             df = pd.DataFrame(myDict, index=[0])
-            print(df)
-            print(approvereject(df))
+            prediction_result = approvereject(df)
+            print(prediction_result)
+            return render(request, 'app/form1.html', {'form': form, 'prediction_result': prediction_result})
 					
     form=ApprovalForm()
 
-    return render(request, 'app/form1.html', {'form':form})
+    return render(request, 'app/form1.html', {'form': form})
 
-## function to predict if the machine will fail or not
+## function to predict the type of failure
 def approvereject2(unit):
     try:
         scalers = joblib.load("/Users/asheshlalshrestha/Desktop/Datanal/Project/Predictive-maintenence/core/app/scaler.pkl")
@@ -299,8 +303,19 @@ def approvereject2(unit):
         df_scaled = pd.concat([unit[unit.columns[0]], X_scaled_df], axis=1)
         
         y_pred = mdl.predict(df_scaled) 
-        return y_pred       
-
+        if y_pred == 0:
+            return "Heat dissipation failure (HDF)"
+        elif y_pred==1:
+            return "Overstrain failure (OSF)"
+        elif y_pred==2:
+            return "Power failure (PWF)"
+        elif y_pred==3:
+            return "Random failures (RNF)"
+        elif y_pred==4:
+            return "Tool wear failure (TWF)"
+        else:
+            return "The machine is fine"
+    
     except Exception as e:
         return str(e)
     
@@ -317,9 +332,8 @@ def cxcontact2(request):
             Process_temperature=form.cleaned_data['Process_temperature']
             myDict = (request.POST).dict()
             df = pd.DataFrame(myDict, index=[0])
-            print(df)
-            print(approvereject2(df))
-					
+            failure_type = approvereject2(df)
+            return render(request, 'app/form2.html', {'form': form, 'failure_type': failure_type})		
     form=ApprovalForm()
 
     return render(request, 'app/form2.html', {'form':form})
