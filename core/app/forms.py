@@ -13,7 +13,7 @@ class ApprovalForm(forms.Form):
         (1, '1'),
         (2, '2'),
     )
-    Type = forms.ChoiceField(choices=TYPE_CHOICES, label='Type of Machine (0-L,1-M,2-H)')
+    Type = forms.ChoiceField(choices=TYPE_CHOICES, label='Type of Machine (0-L,1-M,2-L)')
     Rotational_speed_rpm=forms.IntegerField()
     Torque_Nm=forms.IntegerField()
     Tool_wear_min=forms.IntegerField()

@@ -231,28 +231,26 @@ def approvereject(unit):
     try:
         scalers = joblib.load("/Users/asheshlalshrestha/Desktop/Datanal/Project/Predictive-maintenence/core/app/scaler.pkl")
         mdl = joblib.load("/Users/asheshlalshrestha/Desktop/Datanal/Project/Predictive-maintenence/core/app/rf1.pkl")
-        # Define the expected column names
-        expected_cols = {
-            'Rotational_speed_rpm': 'Rotational speed [rpm]',
-            'Torque_Nm': 'Torque [Nm]',
-            'Tool_wear_min': 'Tool wear [min]',
-            'Air_temperature': 'Air temperature [c]',
-            'Process_temperature': 'Process temperature [c]'
-        }
-
-        # Convert present column names of 'unit' to expected ones
-        unit = unit.rename(columns=expected_cols)
+        # scale_cols = ['Rotational_speed_rpm', 'Torque_Nm', 'Tool_wear_min', 'Air_temperature', 'Process_temperature']
 
         # Drop the 'csrfmiddlewaretoken' column if it exists
         if 'csrfmiddlewaretoken' in unit.columns:
             unit = unit.drop('csrfmiddlewaretoken', axis=1)
-
-        # Only select columns mentioned in scale_cols
-        scale_cols = ['Rotational speed [rpm]', 'Torque [Nm]', 'Tool wear [min]', 'Air temperature [c]', 'Process temperature [c]']
-        unit_scaled = unit[scale_cols]
-        X_scaled = scalers.transform(unit_scaled.values)
-        y_pred = mdl.pred(X_scaled)
-
+        
+        # Exclude the first column from scaling
+        columns_to_scale = unit.columns[1:]
+        
+        # Scale the selected columns
+        X_scaled = scalers.transform(unit[columns_to_scale])
+        
+        # Create a DataFrame from the scaled data
+        X_scaled_df = pd.DataFrame(X_scaled, columns=columns_to_scale, index=unit.index)
+        
+        # Concatenate the unscaled first column and scaled data
+        df_scaled = pd.concat([unit[unit.columns[0]], X_scaled_df], axis=1)
+        
+        y_pred = mdl.predict(df_scaled) 
+        return y_pred       
 
     except Exception as e:
         return str(e)
