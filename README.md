@@ -6,6 +6,6 @@ This project consists of 4 different components:
 4. A model to predict if the machine will fail or not
 
 Backend - Django
-Frontend  - HTML, CLSS
+Frontend  - HTML, CSS
 Data Cleaning, modeling, model training - Jupyter Notebook
 Dataset - Kaggle
