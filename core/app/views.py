@@ -105,7 +105,7 @@ def generate_chart5_data():
         title='Distribution of Torque and Rotational speed',
         yaxis_title='Frequency',
         title_text="Histograms",
-        width=900
+        width=1450
     )
     chart = fig2.to_html(full_html=False, include_plotlyjs=False)
     return chart
@@ -127,7 +127,7 @@ def generate_chart6_data():
     fig.update_layout(
         title='Correlation Matrix',
         height=600,
-        width=800
+        width=1450
     )
 
     chart = fig.to_html(full_html=False, include_plotlyjs=False)
@@ -152,7 +152,7 @@ def generate_chart7_data():
         # Add the violin plot trace to the figure
         fig.add_trace(violin_trace, row=i+1, col=1)
 
-    fig.update_layout(height=2000, width=800, title_text="Subplots")
+    fig.update_layout(height=2000, width=1450, title_text="Subplots")
     chart = fig.to_html(full_html=False, include_plotlyjs=False)
     
     return chart
