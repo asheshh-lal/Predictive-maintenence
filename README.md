@@ -9,3 +9,4 @@ Backend - Django
 Frontend  - HTML, CSS
 Data Cleaning, modeling, model training - Jupyter Notebook
 Dataset - Kaggle
+Tools for graphs and plots - Plotly
